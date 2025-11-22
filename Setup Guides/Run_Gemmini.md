@@ -47,9 +47,17 @@ cd /ssd_scratch/chipyard/generators/gemmini/software/gemmini-rocc-tests
 
 ## Testing on Verilator
 
+On normal Gemmini configuration:
 ```bash
 cd /ssd_scratch/chipyard/sims/verilator && source ../../env.sh
 time make CONFIG=GemminiRocketConfig run-binary \
+BINARY=../../generators/gemmini/software/gemmini-rocc-tests/build/bareMetalC/template-baremetal
+```
+
+On BitNet Gemmini configuration:
+```bash
+cd /ssd_scratch/chipyard/sims/verilator && source ../../env.sh
+time make CONFIG=BitNetGemminiRocketConfig run-binary \
 BINARY=../../generators/gemmini/software/gemmini-rocc-tests/build/bareMetalC/template-baremetal
 ```
 
@@ -70,4 +78,7 @@ make clean && make install
 ```bash
 cd /ssd_scratch/chipyard/sims/verilator && source ../../env.sh
 spike --extension=gemmini ../../generators/gemmini/software/gemmini-rocc-tests/build/bareMetalC/template-baremetal
+
+cd /ssd_scratch/chipyard/sims/verilator && source ../../env.sh
+spike --extension=gemmini ../../generators/gemmini/software/gemmini-rocc-tests/build/bareMetalC/bitnet_matmul-baremetal
 ```
