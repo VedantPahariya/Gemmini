@@ -28,7 +28,13 @@ Whenever making any changes in the hardware of Gemmini (i.e., any change in Scal
 
 ```bash
 cd $CHIPYARD_DIR/chipyard
-export VERILATOR_THREADS=1
+export VERILATOR_THREADS=10
+make -C sims/verilator clean && make -C sims/verilator CONFIG=GemminiRocketConfig -j$(nproc)
+```
+
+```bash
+cd $CHIPYARD_DIR/chipyard
+export VERILATOR_THREADS=10
 make -C sims/verilator clean && make -C sims/verilator CONFIG=BitNetGemminiRocketConfig -j$(nproc)
 ```
 
@@ -82,3 +88,18 @@ spike --extension=gemmini ../../generators/gemmini/software/gemmini-rocc-tests/b
 cd /ssd_scratch/chipyard/sims/verilator && source ../../env.sh
 spike --extension=gemmini ../../generators/gemmini/software/gemmini-rocc-tests/build/bareMetalC/bitnet_matmul-baremetal
 ```
+
+cd $CHIPYARD_DIR/chipyard
+export VERILATOR_THREADS=4
+make -C sims/verilator clean && make -C sims/verilator CONFIG=LeanSaturnGemminiRocketConfig -j$(nproc)
+
+cd /ssd_scratch/chipyard/generators/gemmini/software/gemmini-rocc-tests
+./build.sh -j$(nproc)
+
+cd /ssd_scratch/chipyard/sims/verilator && source ../../env.sh
+time make CONFIG=LeanSaturnGemminiRocketConfig run-binary \
+BINARY=../../generators/gemmini/software/gemmini-rocc-tests/build/bareMetalC/template-baremetal
+
+cd /ssd_scratch/chipyard/sims/verilator && source ../../env.sh
+time make CONFIG=LeanSaturnGemminiRocketConfig run-binary \
+BINARY=../../generators/gemmini/software/gemmini-rocc-tests/build/bareMetalC/tiled_matmul_os-baremetal
